@@ -1,5 +1,7 @@
 package com.example.may1.geoquiz;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,12 +15,14 @@ import org.w3c.dom.Text;
 public class QuizActivity extends AppCompatActivity {
 
     private static final String KEY_INDEX = "index";
+
     private Button mTrueButton;
     private Button mFalseButton;
 //    private Button mNextButton;
 //    private Button mPrevButton;
     private ImageButton mPrevButton;
     private ImageButton mNextButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
     private Question[] mQuestionBank = new Question[] {
             new Question(R.string.question1, false),
@@ -83,6 +87,17 @@ public class QuizActivity extends AppCompatActivity {
                     mCurrentIndex = mQuestionBank.length - 1;
                 }
                 updateQuestion();
+            }
+        });
+
+        mCheatButton = (Button)findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+                Intent i = CheatActivity.newIntent(QuizActivity.this, answerIsTrue);
+//                Intent i = new Intent(QuizActivity.this, CheatActivity.class);
+                startActivity(i);
             }
         });
 
